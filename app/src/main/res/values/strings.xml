@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">StarWarsAPI</string>
+
+    <string name="card_title_personagens">Personagens</string>
+    <string name="card_title_filmes">Filmes</string>
+    <string name="card_title_naves">Naves</string>
+    <string name="card_title_veiculos">Veículos</string>
+    <string name="card_title_especies">Espécies</string>
+    <string name="card_title_planetas">Planetas</string>
+
+    <string name="button_random_search">Supreenda-me</string>
+</resources>
