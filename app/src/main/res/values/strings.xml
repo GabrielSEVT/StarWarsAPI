@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">StarWarsAPI</string>
-
+    <string name="app_name">Star Wars - Descubra tudo!</string>
     <string name="card_title_personagens">Personagens</string>
     <string name="card_title_filmes">Filmes</string>
     <string name="card_title_naves">Naves</string>
