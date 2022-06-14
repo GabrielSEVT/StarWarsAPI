@@ -72,21 +72,22 @@ public class ListCharacters extends AppCompatActivity implements LoaderManager.L
     public void onLoadFinished(@NonNull Loader<String> loader, String data) {
         try {
             JSONObject jsonObject = new JSONObject(data);
-            JSONArray jsonArray = new JSONArray(data);
+            JSONArray jsonArray = jsonObject.getJSONArray("name");
 
             for(int i = 0; i < jsonArray.length(); i++)
             {
                 JSONObject object = jsonArray.getJSONObject(i);
-                String nome = object.getString("name");
-                stringArrayList.add(nome);
+                String name = object.getString("name");
+                stringArrayList.add(name);
             }
 
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, stringArrayList);
             charactersName.setAdapter(adapter);
 
 
-
         } catch (JSONException e) {
+
+
             e.printStackTrace();
         }
     }
