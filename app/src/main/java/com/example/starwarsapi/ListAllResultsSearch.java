@@ -6,16 +6,11 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 
@@ -23,24 +18,27 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.os.Bundle;
-
 import java.util.ArrayList;
 
-public class ListCharacters extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String> {
+public class ListAllResultsSearch extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String> {
 
     ArrayList<String> stringArrayList;
     String queryString;
 
-    private ListView charactersName;
+    private ListView allSearchResults;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Bundle e = getIntent().getExtras();
+        if( e != null ) {
+            queryString = e.getString("queryString");
+        }
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_characters);
+        setContentView(R.layout.activity_list_all_result_search);
 
         stringArrayList = new ArrayList<String>();
-        charactersName = (ListView) findViewById(R.id.ListViewAllCharactersNames);
+        allSearchResults = (ListView) findViewById(R.id.ListViewAllSearchResults);
 
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -48,8 +46,7 @@ public class ListCharacters extends AppCompatActivity implements LoaderManager.L
         if (connMgr != null) {
             networkInfo = connMgr.getActiveNetworkInfo();
         }
-        /* Se a rede estiver disponivel e o campo de busca não estiver vazio
-         iniciar o Loader CarregaLivros */
+
         if (networkInfo != null && networkInfo.isConnected())
         {
             Bundle queryBundle = new Bundle();
@@ -61,7 +58,6 @@ public class ListCharacters extends AppCompatActivity implements LoaderManager.L
     @NonNull
     @Override
     public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
-        String queryString = "";
         if (args != null) {
             queryString = args.getString("queryString");
         }
@@ -72,28 +68,30 @@ public class ListCharacters extends AppCompatActivity implements LoaderManager.L
     public void onLoadFinished(@NonNull Loader<String> loader, String data) {
         try {
             JSONObject jsonObject = new JSONObject(data);
-            JSONArray jsonArray = jsonObject.getJSONArray("name");
+            JSONArray jsonArray = jsonObject.getJSONArray("results");
 
             for(int i = 0; i < jsonArray.length(); i++)
             {
                 JSONObject object = jsonArray.getJSONObject(i);
-                String name = object.getString("name");
-                stringArrayList.add(name);
+                if(queryString.equals("films/")) {
+                    String title = object.getString("title");
+                    stringArrayList.add(title);
+                } else {
+                    String name = object.getString("name");
+                    stringArrayList.add(name);
+                }
             }
 
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, stringArrayList);
-            charactersName.setAdapter(adapter);
-
+            allSearchResults.setAdapter(adapter);
 
         } catch (JSONException e) {
-
-
             e.printStackTrace();
         }
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader<String> loader) {
-
+        // Método vazio
     }
 }

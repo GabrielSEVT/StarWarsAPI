@@ -4,11 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ListCharacters">
+    tools:context=".ListAllResultsSearch">
 
-    <include layout="@layout/toolbar" />
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -17,15 +15,15 @@
         tools:context=".MainActivity"
         >
 
+        <include
+            android:id="@+id/menu"
+            layout="@layout/toolbar" />
+
         <ListView
-            android:id="@+id/ListViewAllCharactersNames"
+            android:layout_below="@+id/menu"
+            android:id="@+id/ListViewAllSearchResults"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="match_parent" />
 
-            />
-    </LinearLayout>
-
-
-
-
+    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

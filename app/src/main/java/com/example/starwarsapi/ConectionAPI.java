@@ -13,14 +13,16 @@ import java.net.URL;
 public class ConectionAPI {
     private static final String LOG_TAG = ConectionAPI.class.getSimpleName();
 
-    private static final String STAR_WARS_URL = "https://swapi.dev/api/people/";
+    private static final String STAR_WARS_URL = "https://swapi.dev/api/";
 
     static String queryCharacters(String queryString) {
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
         String retornoJSONString = null;
         try {
-            Uri builtURI = Uri.parse(STAR_WARS_URL).buildUpon()
+            String url = STAR_WARS_URL + queryString;
+
+            Uri builtURI = Uri.parse(url).buildUpon()
                     .build();
 
             URL requestURL = new URL(builtURI.toString());
